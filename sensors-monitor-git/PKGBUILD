@@ -1,0 +1,43 @@
+pkgname=sensors-monitor
+pkgrel=1
+pkgdesc="A terminal-based system sensors monitor with color-coded output"
+arch=('any')
+url="https://github.com/bobi/sensors-monitor"
+license=('MIT')
+depends=('lm_sensors')
+makedepends=('cargo' 'sed' 'grep' 'git')
+conflicts=("${pkgname%-git}")
+provides=("${pkgname%-git}")
+source=("git+${url}")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "${pkgname%-git}"
+
+  cargo_ver=$(grep '^version =' Cargo.toml | sed -E 's/version = "(.*)"/\1/')
+
+  git_rev=$(git rev-list --count HEAD)
+
+  echo "$cargo_ver.r$git_rev"
+}
+
+prepare() {
+  cd "${pkgname%-git}"
+  cargo fetch --locked --target "$(rustc -vV | sed -n 's/host: //p')"
+}
+
+build() {
+  cd "${pkgname%-git}"
+  cargo build --release --frozen
+}
+
+# check() {
+#   cd "${pkgname%-git}"
+#   cargo test --frozen
+# }
+
+package() {
+  cd "${pkgname%-git}"
+  install -Dm 755 "target/release/${pkgname%-git}" -t "${pkgdir}/usr/bin"
+  install -Dm 644 "sensors-monitor.conf" "${pkgdir}/usr/share/${pkgname}/sensors-monitor.conf"
+}
