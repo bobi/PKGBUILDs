@@ -1,0 +1,49 @@
+# Maintainer: Daniel Hillenbrand <codeworkx at bbqlinux dot org>
+
+_pkgbase=it87
+pkgname=it87-dkms-odroid-git
+pkgver=1
+pkgrel=1
+pkgdesc="Linux Driver for ITE LPC chips"
+arch=('x86_64' 'i686')
+url="https://github.com/frankcrawford/it87"
+license=('GPL')
+depends=('dkms')
+makedepends=('git', 'patch')
+provides=('it87')
+conflicts=('it87-frankcrawford-dkms-git' 'it87-dkms-git')
+
+source=("${_pkgbase}::git+${url}.git"
+        "dkms.conf"
+        "it87.conf"
+        "odroid.patch")
+
+sha256sums=('SKIP'
+            'f325b751c8a81416a75c2c1e7a7bc9ca46ae0fa3b44d4ccc09593274be1b2dc7'
+            'acdc488d1505e891ed6259b29428d4b27d26d18e3ea170f017b930390d6420e7'
+            'f21db635cfaf57e58a0b8595225673f5f8b66da02956bcb00c33806c8198d136')
+
+pkgver() {
+  cd "${srcdir}/${_pkgbase}"
+  printf "%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+  cd "${srcdir}/${_pkgbase}"
+  patch -p1 -i "${srcdir}/odroid.patch"
+}
+
+package() {
+  cd "${srcdir}/${_pkgbase}"
+
+  install -d "${pkgdir}"/usr/src/${_pkgbase}-${pkgver}/
+  cp -r ${srcdir}/${_pkgbase}/* "${pkgdir}"/usr/src/${_pkgbase}-${pkgver}/
+
+  install -Dm644 ${srcdir}/dkms.conf "${pkgdir}"/usr/src/${_pkgbase}-${pkgver}/dkms.conf
+
+  sed -e "s/@_PKGBASE@/${_pkgbase}/" \
+    -e "s/@PKGVER@/${pkgver}/" \
+    -i "${pkgdir}"/usr/src/${_pkgbase}-${pkgver}/dkms.conf
+
+  install -Dm644 ${srcdir}/it87.conf "${pkgdir}"/usr/lib/depmod.d/it87.conf
+}
