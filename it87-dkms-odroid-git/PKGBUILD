@@ -9,7 +9,7 @@ arch=('x86_64' 'i686')
 url="https://github.com/frankcrawford/it87"
 license=('GPL')
 depends=('dkms')
-makedepends=('git', 'patch')
+makedepends=('git' 'patch')
 provides=('it87')
 conflicts=('it87-frankcrawford-dkms-git' 'it87-dkms-git')
 
