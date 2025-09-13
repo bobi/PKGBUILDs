@@ -1,7 +1,7 @@
 pkgname=sensors-monitor-git
 pkgver=1
 pkgrel=1
-pkgdesc="A terminal-based system sensors monitor with color-coded output"
+pkgdesc="A terminal-based system sensors monitor with color-coded output."
 arch=('any')
 url="https://github.com/bobi/sensors-monitor"
 license=('MIT')
