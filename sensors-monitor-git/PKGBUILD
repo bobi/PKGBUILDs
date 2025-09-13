@@ -1,6 +1,6 @@
 pkgname=sensors-monitor-git
 _pkgname=${pkgname%-git}
-pkgver=1.1.1.e605e83
+pkgver=1
 pkgrel=1
 pkgdesc="A terminal-based system sensors monitor with color-coded output"
 arch=('any')
