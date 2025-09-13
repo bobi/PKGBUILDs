@@ -18,8 +18,8 @@ pkgver() {
   cargo_ver=$(grep '^version =' Cargo.toml | sed -E 's/version = "(.*)"/\1/')
 
   git_rev=$(git rev-list --count HEAD)
-
-  echo "$cargo_ver.r$git_rev"
+  git_hash=$(git rev-parse --short HEAD)
+  echo "${cargo_ver}.r${git_rev}.g${git_hash}"
 }
 
 prepare() {
