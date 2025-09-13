@@ -1,4 +1,5 @@
 pkgname=sensors-monitor
+pkgver=1
 pkgrel=1
 pkgdesc="A terminal-based system sensors monitor with color-coded output"
 arch=('any')
