@@ -6,5 +6,5 @@ Add the following lines to `~/.confug/paru/paru.conf`:
 
 ```ini
 [bobi]
-URL = https://github.com/bobi/PKGBUILDs
+Url = https://github.com/bobi/PKGBUILDs.git
 ```
