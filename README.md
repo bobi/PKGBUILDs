@@ -8,3 +8,4 @@ Add the following lines to `~/.confug/paru/paru.conf`:
 [bobi]
 Url = https://github.com/bobi/PKGBUILDs.git
 ```
+test
